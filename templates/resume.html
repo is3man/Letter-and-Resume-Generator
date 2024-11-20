@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Input Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Full viewport height */
+            padding: 20px;
+        }
+
+        .resume-input-container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 500px; /* Fixed width for the resume input form */
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: #007BFF; /* Match the navbar color */
+        }
+
+        .section-title {
+            font-size: 1.5em;
+            margin-top: 20px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="date"],
+        textarea {
+            width: 100%; /* Full width */
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            transition: border 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="date"]:focus,
+        textarea:focus {
+            border: 1px solid #007BFF; /* Change border color on focus */
+        }
+
+        textarea {
+            resize: vertical; /* Allow vertical resizing */
+            height: 100px; /* Set a fixed height for the textarea */
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .add-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 12px;
+            margin-top: 10px;
+            font-size: 0.9em;
+        }
+
+        button[type="submit"] {
+            background-color: #007BFF;
+            color: white;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+    </style>
+    <script>
+        function addSkill() {
+            const skillsContainer = document.getElementById('skills-container');
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.name = 'skills[]';
+            input.className = 'form-group';
+            input.placeholder = 'Enter another skill';
+            skillsContainer.appendChild(input);
+        }
+
+        function addExperience() {
+            const experienceContainer = document.getElementById('experience-container');
+
+            const jobDiv = document.createElement('div');
+            jobDiv.className = 'form-group';
+
+            const titleLabel = document.createElement('label');
+            titleLabel.textContent = 'Job Title:';
+            const titleInput = document.createElement('input');
+            titleInput.type = 'text';
+            titleInput.name = 'experience[][title]';
+            titleInput.className = 'form-group';
+
+            const companyLabel = document.createElement('label');
+            companyLabel.textContent = 'Company:';
+            const companyInput = document.createElement('input');
+            companyInput.type = 'text';
+            companyInput.name = 'experience[][company]';
+            companyInput.className = 'form-group';
+
+            const startDateLabel = document.createElement('label');
+            startDateLabel.textContent = 'Start Date:';
+            const startDateInput = document.createElement('input');
+            startDateInput.type = 'date';
+            startDateInput.name = 'experience[][start_date]';
+            startDateInput.className = 'form-group';
+
+            const endDateLabel = document.createElement('label');
+            endDateLabel.textContent = 'End Date:';
+            const endDateInput = document.createElement('input');
+            endDateInput.type = 'date';
+            endDateInput.name = 'experience[][end_date]';
+            endDateInput.className = 'form-group';
+
+            const dutiesLabel = document.createElement('label');
+            dutiesLabel.textContent = 'Job Duties (comma-separated):';
+            const dutiesTextarea = document.createElement('textarea');
+            dutiesTextarea.name = 'experience[][duties]';
+            dutiesTextarea.rows = 3;
+
+            jobDiv.appendChild(titleLabel);
+            jobDiv.appendChild(titleInput);
+            jobDiv.appendChild(companyLabel);
+            jobDiv.appendChild(companyInput);
+            jobDiv.appendChild(startDateLabel);
+            jobDiv.appendChild(startDateInput);
+            jobDiv.appendChild(endDateLabel);
+            jobDiv.appendChild(endDateInput);
+            jobDiv.appendChild(dutiesLabel);
+            jobDiv.appendChild(dutiesTextarea);
+
+            experienceContainer.appendChild(jobDiv);
+        }
+    </script>
+</head>
+<body>
+    <form action="/resumegen" method="post">
+        <h1>Resume Input Form</h1>
+        <!-- Personal Information -->
+        <div class="section-title">Personal Information</div>
+        <div class="form-group">
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="title">Job Title:</label>
+            <input type="text" id="title" name="title" required>
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone Number:</label>
+            <input type="text" id="phone" name="phone" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+            <label for="linkedin">LinkedIn URL:</label>
+            <input type="text" id="linkedin" name="linkedin" required>
+        </div>
+
+        <!-- Education -->
+        <div class="section-title">Education</div>
+        <div class="form-group">
+            <label for="degree">Degree:</label>
+            <input type="text" id="degree" name="degree" required>
+        </div>
+        <div class="form-group">
+            <label for="institution">Institution:</label>
+            <input type="text" id="institution" name="institution" required>
+        </div>
+        <div class="form-group">
+            <label for="honors">Honors (e.g., cum laude):</label>
+            <input type="text" id="honors" name="honors">
+        </div>
+        <div class="form-group">
+            <label for="gpa">GPA:</label>
+            <input type="text" id="gpa" name="gpa">
+        </div>
+        <div class="form-group">
+            <label for="graduation_date">Graduation Date:</label>
+            <input type="text" id="graduation_date" name="graduation_date">
+        </div>
+
+        <!-- Skills -->
+        <div class="section-title">Relevant Skills</div>
+        <div id="skills-container">
+            <div class="form-group">
+                <label for="skills">Skills:</label>
+                <input type="text" id="skills" name="skills[]" required>
+            </div>
+        </div>
+        <button type="button" class="add-btn" onclick="addSkill()">Add Skill</button>
+
+        <!-- Career Objective -->
+        <div class="section-title">Career Objective</div>
+        <div class="form-group">
+            <label for="objective">Objective:</label>
+            <textarea id="objective" name="objective" rows="4" required></textarea>
+        </div>
+
+        <!-- Professional Experience -->
+        <div class="section-title">Professional Experience</div>
+        <div id="experience-container">
+            <div class="form-group">
+                <label for="job_title_1">Job Title:</label>
+                <input type="text" id="job_title_1" name="experience[][title]">
+            </div>
+            <div class="form-group">
+                <label for="company_1">Company:</label>
+                <input type="text" id="company_1" name="experience[][company]">
+            </div>
+            <div class="form-group">
+                <label for="start_date_1">Start Date:</label>
+                <input type="date" id="start_date_1" name="experience[][start_date]" required>
+            </div>
+            <div class="form-group">
+                <label for="end_date_1">End Date:</label>
+                <input type="date" id="end_date_1" name="experience[][end_date]" required>
+            </div>
+            <div class="form-group">
+                <label for="duties_1">Job Duties (comma-separated):</label>
+                <textarea id="duties_1" name="experience[][duties]" rows="3"></textarea>
+            </div>
+        </div>
+        <button type="button" class="add-btn" onclick="addExperience()">Add Job</button>
+
+        <!-- Submit Button -->
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

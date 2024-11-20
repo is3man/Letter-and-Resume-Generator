@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Leave Letter Template</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+        }
+        .template-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        .template-card {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            width: 300px;
+            padding: 10px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        .template-card:hover {
+            transform: scale(1.05);
+        }
+        .template-card img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+        .template-card a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .template-card a:hover {
+            background-color: #0056b3;
+        }
+        img{
+            size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Choose a Leave Letter Template</h1>
+    <div class="template-container">
+        <!-- Template 1 -->
+        <div class="template-card">
+            <img src="{{ url_for('static', filename='images/death leave.jpg') }}">
+            <h3>Template 1</h3>
+            <p>A formal leave letter for college students.</p>
+            <a href="/form?template=template1">Choose Template</a>
+        </div>
+
+        <!-- Template 2 -->
+        <div class="template-card">
+            <img src="template2-preview.jpg" alt="Template 2 Preview">
+            <h3>Template 2</h3>
+            <p>An informal leave letter suitable for casual occasions.</p>
+            <a href="/form?template=template2">Choose Template</a>
+        </div>
+
+        <!-- Template 3 -->
+        <div class="template-card">
+            <img src="template3-preview.jpg" alt="Template 3 Preview">
+            <h3>Template 3</h3>
+            <p>A professional leave letter for work-related purposes.</p>
+            <a href="/form?template=template3">Choose Template</a>
+        </div>
+    </div>
+</body>
+</html>

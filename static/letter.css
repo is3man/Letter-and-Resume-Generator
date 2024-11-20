@@ -1,0 +1,25 @@
+/* letter.css */
+.container {
+    background: #ffffff;
+    font-family: 'Georgia', serif;
+    line-height: 1.8;
+    padding: 40px;
+    border-radius: 10px;
+    border: 2px dashed #007bff;
+}
+
+h1 {
+    font-family: 'Times New Roman', serif;
+    color: #0056b3;
+    margin-bottom: 30px;
+}
+
+p {
+    margin-bottom: 15px;
+}
+
+button {
+    padding: 10px 20px;
+    margin-top: 20px;
+    width: auto;
+}

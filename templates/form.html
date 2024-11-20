@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Application Form</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Leave Request Form - {{ template }}</h1>
+        <p>Fill out the form for {{ template }}</p>
+
+        <form action="/generate" method="POST">
+
+            <label>Date:</label><br>
+            <input type="date" name="date" required><br><br>
+
+            <label>Name of the Teacher:</label><br>
+            <input type="text" name="name_of_the_teacher" required><br><br>
+
+            <label>Designation, Department:</label><br>
+            <input type="text" name="designation_teacher_dept" required><br><br>
+
+            <label>Gender (Sir/Madam):</label><br>
+            <input type="text" name="gender" required><br><br>
+
+            <label>Start Date:</label><br>
+            <input type="date" name="start_date" required><br><br>
+
+            <label>End Date:</label><br>
+            <input type="date" name="end_date" required><br><br>
+
+            <label>Reason for Leave:</label><br>
+            <textarea name="reason" required></textarea><br><br>
+
+            <input type="submit" value="Generate Leave Request">
+        </form>
+    </div>
+</body>
+</html>

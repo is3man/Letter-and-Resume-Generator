@@ -1,0 +1,24 @@
+/* form.css */
+.container {
+    max-width: 700px;
+}
+
+textarea {
+    min-height: 100px;
+}
+
+input[type="date"], textarea {
+    width: 100%;
+}
+
+input[type="submit"] {
+    width: 100%;
+    font-size: 1.2rem;
+    padding: 10px;
+    margin-top: 15px;
+    background-color: #28a745;
+}
+
+input[type="submit"]:hover {
+    background-color: #218838;
+}

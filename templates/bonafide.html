@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bonafide Certificate Request</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        label {
+            font-weight: bold;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Bonafide Certificate Request</h1>
+    <form action="/bona" method="post">
+        <!-- Reason -->
+        <label for="reason">Reason for Certificate:</label>
+        <input type="text" id="reason" name="reason" placeholder="Enter reason for the certificate" required>
+
+        <!-- Academic Year -->
+        <label for="academic_year">Academic Year:</label>
+        <input type="text" id="academic_year" name="academic_year" placeholder="e.g., 2023-2024" required>
+
+        <!-- Gender -->
+        <label for="gender">Gender:</label>
+        <select id="gender" name="gender" required>
+            <option value="" disabled selected>Select your gender</option>
+            <option value="Mr.">Male</option>
+            <option value="Ms.">Female</option>
+        </select>
+
+        <!-- Student Name -->
+        <label for="name">Student Name:</label>
+        <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+
+        <label for="child">Relation (S/O or D/O):</label>
+            <select id="child" name="child" required>
+                <option value="" disabled selected>Select relation</option>
+                <option value="S/O">S/O (Son of)</option>
+                <option value="D/O">D/O (Daughter of)</option>
+            </select>
+
+            <label for="parent_gender">Parent's Gender:</label>
+            <select id="parent" name="parent" required>
+                <option value="" disabled selected>Select parent's gender</option>
+                <option value="Mr.">Mr.</option>
+                <option value="Mrs.">Mrs.</option>
+            </select>
+        
+        <!-- Parent Name -->
+        <label for="parent_name">Parent Name:</label>
+        <input type="text" id="parent_name" name="parent_name" placeholder="Enter your parent's name" required>
+
+        <!-- Roll Number -->
+        <label for="your_roll_number">Roll Number:</label>
+        <input type="text" id="your_roll_number" name="your_roll_number" placeholder="Enter your roll number" required>
+
+        <!-- Course Name -->
+        <label for="course_name">Course Name:</label>
+        <input type="text" id="course_name" name="course_name" placeholder="Enter your course name (e.g., B.Tech, B.Sc)" required>
+
+        <!-- Year of Study -->
+        <label for="year">Year of Study:</label>
+        <input type="text" id="year" name="year" placeholder="e.g., 1st, 2nd, 3rd year" required>
+
+        <!-- College Name -->
+        <label for="college">College Name:</label>
+        <input type="text" id="college" name="college" placeholder="Enter the college name" required>
+
+        <!-- AISHE Number -->
+        <label for="aishe_no">AISHE Number:</label>
+        <input type="text" id="aishe_no" name="aishe_no" placeholder="Enter AISHE number" required>
+
+        <!-- Third-Person Pronoun -->
+        <label for="third_person">Third-Person Pronoun:</label>
+        <select id="third_person" name="third_person" required>
+            <option value="" disabled selected>Select pronoun</option>
+            <option value="he">He</option>
+            <option value="she">She</option>
+        </select>
+
+        <!-- Submit Button -->
+        <button type="submit">Submit Request</button>
+    </form>
+
+</body>
+</html>
