@@ -1,67 +1,294 @@
-/* Reset some default browser styles */
+/* Base Reset */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Full viewport height */
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    padding: 20px;
 }
 
-.register-container {
+/* Form Container */
+form {
     background: white;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    width: 400px; /* Fixed width for the registration form */
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+    position: relative;
+    animation: formAppear 0.6s ease-out;
 }
 
+/* Title Styling */
 h1 {
-    margin-bottom: 20px;
+    color: #2c3e50;
+    margin-bottom: 30px;
     text-align: center;
-    color: #007BFF; /* Match the navbar color */
+    font-size: 2rem;
+    font-weight: 600;
+    position: relative;
+    padding-bottom: 10px;
 }
 
+h1::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    border-radius: 2px;
+}
+
+/* Form Group Styling */
 label {
     display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
+    margin-bottom: 8px;
+    color: #34495e;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
 }
 
-input[type="text"],
-input[type="password"],
+/* Input Field Styling */
+input {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background-color: #f8fafc;
+}
+
+input:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+    background-color: #fff;
+}
+
+/* Specific Input Types Styling */
 input[type="date"] {
-    width: 100%; /* Full width */
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    transition: border 0.3s;
+    padding: 10px 15px;
+    cursor: pointer;
 }
 
-input[type="text"]:focus,
-input[type="password"]:focus,
-input[type="date"]:focus {
-    border: 1px solid #007BFF; /* Change border color on focus */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    padding: 5px;
+    margin-right: -8px;
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
 }
 
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+}
+
+/* Placeholder Styling */
+input::placeholder {
+    color: #a0aec0;
+    font-size: 0.9rem;
+    font-style: italic;
+}
+
+/* Button Styling */
 button {
     width: 100%;
-    padding: 10px;
-    background: #007BFF;
+    padding: 14px;
+    background: linear-gradient(135deg, #3498db, #2980b9);
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    position: relative;
+    overflow: hidden;
 }
 
 button:hover {
-    background: #0056b3; /* Darker blue on hover */
+    background: linear-gradient(135deg, #2980b9, #3498db);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+/* Input Validation Styling */
+input:invalid {
+    border-color: #e74c3c;
+}
+
+input:valid {
+    border-color: #2ecc71;
+}
+
+/* Error Message Styling */
+.error-message {
+    color: #e74c3c;
+    font-size: 0.85rem;
+    margin-top: -15px;
+    margin-bottom: 15px;
+    display: none;
+}
+
+input:invalid + .error-message {
+    display: block;
+}
+
+/* Animations */
+@keyframes formAppear {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Loading State */
+button.loading {
+    pointer-events: none;
+}
+
+button.loading::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 50%;
+    left: 50%;
+    margin-left: -10px;
+    margin-top: -10px;
+    border: 2px solid #fff;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    form {
+        padding: 30px 20px;
+        margin: 15px;
+    }
+
+    h1 {
+        font-size: 1.75rem;
+        margin-bottom: 25px;
+    }
+
+    input {
+        padding: 10px 12px;
+        font-size: 0.95rem;
+    }
+
+    button {
+        padding: 12px;
+        font-size: 1rem;
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    body {
+        background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+    }
+
+    form {
+        background: #2d3748;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    h1 {
+        color: #e2e8f0;
+    }
+
+    label {
+        color: #e2e8f0;
+    }
+
+    input {
+        background-color: #4a5568;
+        border-color: #4a5568;
+        color: #e2e8f0;
+    }
+
+    input::placeholder {
+        color: #718096;
+    }
+
+    input:focus {
+        background-color: #2d3748;
+        border-color: #3498db;
+    }
+
+    input[type="date"]::-webkit-calendar-picker-indicator {
+        filter: invert(1);
+    }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* Focus Visible Styles */
+:focus-visible {
+    outline: 3px solid #3498db;
+    outline-offset: 2px;
+}
+
+/* Field Group Animations */
+.field-group {
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fieldAppear 0.4s ease-out forwards;
+}
+
+@keyframes fieldAppear {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Progressive Enhancement */
+@supports (backdrop-filter: blur(10px)) {
+    form {
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+    }
+
+    @media (prefers-color-scheme: dark) {
+        form {
+            background: rgba(45, 55, 72, 0.9);
+        }
+    }
 }

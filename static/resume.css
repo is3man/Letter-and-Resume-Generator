@@ -1,4 +1,4 @@
-/* Base Reset and Global Styles */
+/* Base Reset */
 * {
     margin: 0;
     padding: 0;
@@ -15,47 +15,49 @@ body {
     padding: 20px;
 }
 
-/* Container Styling */
-.container {
+/* Form Container */
+form {
     background: white;
     padding: 40px;
     border-radius: 20px;
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 500px;
+    max-width: 600px;
     position: relative;
     animation: formAppear 0.6s ease-out;
 }
 
-/* Heading Styling */
-h2 {
+/* Section Titles */
+.section-title {
     color: #2c3e50;
-    margin-bottom: 30px;
-    text-align: center;
-    font-size: 2rem;
+    margin-bottom: 20px;
+    text-align: left;
+    font-size: 1.4rem;
     font-weight: 600;
     position: relative;
     padding-bottom: 10px;
 }
 
-h2::after {
+.section-title::after {
     content: '';
     position: absolute;
     bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 0;
     width: 60px;
     height: 4px;
     background: linear-gradient(135deg, #3498db, #2980b9);
     border-radius: 2px;
 }
 
-/* Form Elements Styling */
-form {
-    display: flex;
-    flex-direction: column;
+/* Form Group Styling */
+.form-group {
+    margin-bottom: 20px;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fieldAppear 0.4s ease-out forwards;
 }
 
+/* Label Styling */
 label {
     display: block;
     margin-bottom: 8px;
@@ -65,10 +67,10 @@ label {
     transition: color 0.3s ease;
 }
 
-input {
+/* Input Styling */
+input, textarea {
     width: 100%;
     padding: 12px 15px;
-    margin-bottom: 20px;
     border: 2px solid #e0e0e0;
     border-radius: 8px;
     font-size: 1rem;
@@ -76,15 +78,27 @@ input {
     background-color: #f8fafc;
 }
 
-input:focus {
+input:focus, textarea:focus {
     outline: none;
     border-color: #3498db;
     box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
     background-color: #fff;
 }
 
+/* Textarea Specific */
+textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* Date Input Styling */
+input[type="date"] {
+    cursor: pointer;
+    padding: 10px 15px;
+}
+
 /* Button Styling */
-button {
+.add-btn, button[type="submit"] {
     width: 100%;
     padding: 14px;
     background: linear-gradient(135deg, #3498db, #2980b9);
@@ -95,33 +109,24 @@ button {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    margin-bottom: 15px;
+    margin-top: 10px;
+    position: relative;
+    overflow: hidden;
 }
 
-button:hover {
+.add-btn:hover, button[type="submit"]:hover {
     background: linear-gradient(135deg, #2980b9, #3498db);
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
 }
 
-/* Cancel Link Styling */
-a {
-    display: block;
-    text-align: center;
-    color: #3498db;
-    text-decoration: none;
-    font-size: 0.9rem;
-    transition: color 0.3s ease;
+.add-btn {
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+    margin-bottom: 20px;
 }
 
-a:hover {
-    color: #2980b9;
-    text-decoration: underline;
-}
-
-/* Date Input Special Styling */
-input[type="date"] {
-    cursor: pointer;
+.add-btn:hover {
+    background: linear-gradient(135deg, #27ae60, #2ecc71);
 }
 
 /* Animations */
@@ -136,26 +141,28 @@ input[type="date"] {
     }
 }
 
+@keyframes fieldAppear {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* Responsive Design */
 @media (max-width: 600px) {
-    .container {
+    form {
         padding: 30px 20px;
         margin: 15px;
     }
 
-    h2 {
-        font-size: 1.75rem;
-        margin-bottom: 25px;
+    .section-title {
+        font-size: 1.3rem;
+        margin-bottom: 15px;
     }
 
-    input {
+    input, textarea {
         padding: 10px 12px;
         font-size: 0.95rem;
-    }
-
-    button {
-        padding: 12px;
-        font-size: 1rem;
     }
 }
 
@@ -165,12 +172,12 @@ input[type="date"] {
         background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
     }
 
-    .container {
+    form {
         background: #2d3748;
         box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
     }
 
-    h2 {
+    .section-title {
         color: #e2e8f0;
     }
 
@@ -178,19 +185,15 @@ input[type="date"] {
         color: #e2e8f0;
     }
 
-    input {
+    input, textarea {
         background-color: #4a5568;
         border-color: #4a5568;
         color: #e2e8f0;
     }
 
-    input:focus {
+    input:focus, textarea:focus {
         background-color: #2d3748;
         border-color: #3498db;
-    }
-
-    a {
-        color: #4299e1;
     }
 }
 
@@ -210,13 +213,13 @@ input[type="date"] {
 
 /* Progressive Enhancement */
 @supports (backdrop-filter: blur(10px)) {
-    .container {
+    form {
         background: rgba(255, 255, 255, 0.9);
         backdrop-filter: blur(10px);
     }
 
     @media (prefers-color-scheme: dark) {
-        .container {
+        form {
             background: rgba(45, 55, 72, 0.9);
         }
     }

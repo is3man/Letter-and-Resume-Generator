@@ -21,5 +21,11 @@
         <button type="submit">Login</button><br>
         <a href="{{ url_for('register') }}">Don't have an account? Register here</a>
     </form>
+    <script>
+        form.addEventListener('submit', function() {
+            const button = this.querySelector('button');
+            button.classList.add('loading');
+        });
+    </script>
 </body>
 </html>

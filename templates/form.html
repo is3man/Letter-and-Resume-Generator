@@ -17,7 +17,8 @@
             <input type="date" name="date" required><br><br>
 
             <label>Name of the Teacher:</label><br>
-            <input type="text" name="name_of_the_teacher" required><br><br>
+            <input type="text" name="name_of_the_teacher" required>
+            <span>Please enter the teacher's name</span>
 
             <label>Designation, Department:</label><br>
             <input type="text" name="designation_teacher_dept" required><br><br>
@@ -37,5 +38,11 @@
             <input type="submit" value="Generate Leave Request">
         </form>
     </div>
+    <script>
+        document.querySelector('form').addEventListener('submit', function() {
+    const submitButton = this.querySelector('input[type="submit"]');
+    submitButton.classList.add('loading');
+});
+    </script>
 </body>
 </html>

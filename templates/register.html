@@ -27,7 +27,8 @@
         <input type="text" name="phonenumber" required><br>
 
         <label>Email:</label>
-        <input type="text" name="email" required><br>
+        <input type="email" name="email" required>
+        <span class="error-message">Please enter a valid email address</span>
 
         <label>LinkedIn Profile:</label>
         <input type="text" name="linkedin" required><br>
@@ -36,5 +37,11 @@
 
         <button type="submit">Register</button>
     </form>
+    <script>
+        form.addEventListener('submit', function() {
+    const button = this.querySelector('button');
+    button.classList.add('loading');
+});
+    </script>
 </body>
 </html>

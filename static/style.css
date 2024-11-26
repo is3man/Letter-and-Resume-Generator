@@ -1,72 +1,278 @@
-/* Reset some default browser styles */
+/* Global Reset and Base Styles */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+:root {
+    --primary-color: #3498db;
+    --primary-dark: #2980b9;
+    --secondary-color: #2c3e50;
+    --background-color: #f5f7fa;
+    --input-background: #ffffff;
+    --text-primary: #2c3e50;
+    --text-secondary: #606060;
+    --border-color: #e0e0e0;
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Full viewport height */
+    padding: 20px;
 }
 
-.leave-application-container {
+.container {
     background: white;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    width: 400px; /* Fixed width for the leave application form */
+    border-radius: 20px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    width: 100%;
+    max-width: 600px;
+    animation: formAppear 0.6s ease-out;
 }
 
+/* Header Styling */
 h1 {
-    margin-bottom: 20px;
+    color: var(--secondary-color);
     text-align: center;
-    color: #007BFF; /* Match the navbar color */
+    margin-bottom: 20px;
+    font-size: 2.2rem;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+h1::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(to right, var(--primary-color), var(--primary-dark));
+    border-radius: 2px;
+}
+
+p {
+    text-align: center;
+    color: var(--text-secondary);
+    margin-bottom: 30px;
+}
+
+/* Form Styling */
+form {
+    display: flex;
+    flex-direction: column;
 }
 
 label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    font-weight: 500;
+    font-size: 0.95rem;
 }
 
-input[type="text"],
-input[type="date"],
-textarea {
-    width: 100%; /* Full width */
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    transition: border 0.3s;
-}
-
-input[type="text"]:focus,
-input[type="date"]:focus,
-textarea:focus {
-    border: 1px solid #007BFF; /* Change border color on focus */
-}
-
-textarea {
-    resize: vertical; /* Allow vertical resizing */
-    height: 100px; /* Set a fixed height for the textarea */
-}
-
-.submit-button {
+input, textarea {
     width: 100%;
-    padding: 10px;
-    background: #007BFF;
+    padding: 12px 15px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: var(--input-background);
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+/* Specific Input Styling */
+input[type="date"] {
+    appearance: none;
+    -webkit-appearance: none;
+    position: relative;
+    cursor: pointer;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+    cursor: pointer;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+}
+
+/* Textarea Styling */
+textarea {
+    resize: vertical;
+    min-height: 120px;
+    line-height: 1.5;
+}
+
+/* Submit Button */
+input[type="submit"] {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
+    padding: 14px;
+    font-size: 1.1rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    position: relative;
+    overflow: hidden;
 }
 
-.submit-button:hover {
-    background: #0056b3; /* Darker blue on hover */
+input[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+}
+
+input[type="submit"]::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    transition: all 0.5s ease;
+}
+
+input[type="submit"]:hover::before {
+    left: 100%;
+}
+
+/* Loading State */
+input[type="submit"].loading {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+input[type="submit"].loading::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 50%;
+    left: 50%;
+    margin-left: -10px;
+    margin-top: -10px;
+    border: 2px solid #fff;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+/* Animations */
+@keyframes formAppear {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 30px 20px;
+        margin: 20px 10px;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    input, textarea {
+        padding: 10px 12px;
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background-color: #1a202c;
+        --input-background: #2d3748;
+        --text-primary: #e2e8f0;
+        --text-secondary: #a0aec0;
+        --border-color: #4a5568;
+    }
+
+    body {
+        background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+    }
+
+    .container {
+        background: #2d3748;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    input, textarea {
+        color: #e2e8f0;
+    }
+
+    input[type="date"]::-webkit-calendar-picker-indicator {
+        filter: invert(1);
+    }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* Focus Visible */
+input:focus-visible, 
+textarea:focus-visible,
+input[type="submit"]:focus-visible {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Error State */
+input:invalid,
+textarea:invalid {
+    border-color: #e74c3c;
+}
+
+/* Validation Message */
+input:invalid + span,
+textarea:invalid + span {
+    color: #e74c3c;
+    font-size: 0.85rem;
+    margin-top: -15px;
+    margin-bottom: 15px;
+    display: block;
 }
