@@ -17,8 +17,11 @@
         <label>Password:</label>
         <input type="password" name="password" required><br>
         
-        <label>Your Name:</label>
-        <input type="text" name="your_name" placeholder="Eg:Akhilesh('Write the first letter in uppercase')"><br>
+        <label>First Name:</label>
+        <input type="text" name="fname" placeholder="Eg:Akhilesh('Write the first letter in uppercase')"><br>
+
+        <label>Last Name:</label>
+        <input type="text" name="lname" placeholder="Eg:Akhilesh('Write the first letter in uppercase')"><br>
 
         <label>Date of Birth:</label>
         <input type="date" name="dob" required><br>
@@ -28,7 +31,10 @@
 
         <label>Email:</label>
         <input type="email" name="email" required>
-        <span class="error-message">Please enter a valid email address</span>
+        
+        {% if message %}
+        <p style="color: red; font-weight: bold;">{{ em }}</p>
+        {% endif %}
 
         <label>LinkedIn Profile:</label>
         <input type="text" name="linkedin" required><br>
@@ -36,6 +42,7 @@
         
 
         <button type="submit">Register</button>
+        <a href="{{ url_for('login') }}">Already have an account?Sign in here</a>
     </form>
     <script>
         form.addEventListener('submit', function() {

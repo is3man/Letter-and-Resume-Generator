@@ -82,8 +82,8 @@ h1::after {
 /* Image Container */
 .template-card img {
     width: 100%;
-    height: 200px;
-    object-fit: cover;
+    height: 400px;
+    object-fit: fill;
     transition: transform 0.3s ease;
 }
 
@@ -254,18 +254,10 @@ h1::after {
 
         <!-- Template 2 -->
         <div class="template-card">
-            <img src="template2-preview.jpg" alt="Template 2 Preview">
+            <img src="{{ url_for('static', filename='images/letter2.png') }}" alt="Template 2 Preview">
             <h3>Template 2</h3>
             <p>An informal leave letter suitable for casual occasions.</p>
             <a href="/form?template=template2">Choose Template</a>
-        </div>
-
-        <!-- Template 3 -->
-        <div class="template-card">
-            <img src="template3-preview.jpg" alt="Template 3 Preview">
-            <h3>Template 3</h3>
-            <p>A professional leave letter for work-related purposes.</p>
-            <a href="/form?template=template3">Choose Template</a>
         </div>
     </div>
     <script>

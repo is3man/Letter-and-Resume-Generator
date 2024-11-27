@@ -4,6 +4,7 @@ from flask_pymongo import PyMongo
 from flask_login import LoginManager, login_user, login_required, logout_user, UserMixin, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from bson.objectid import ObjectId
+from verify_email import verify_email
 import os
 
 # Initialize Flask application
@@ -52,65 +53,127 @@ def home():
 @app.route('/form')
 @login_required
 def leave_form():
-    # Validate template selection
     selected_template = request.args.get('template')
-    if selected_template not in ['template1', 'template2', 'template3']:
+    templates = {
+            'template1': 'form.html',
+            'template2': 'form_template2.html',
+        }
+        
+    if selected_template not in templates:
         flash("Invalid template selected.")
         return redirect(url_for('home'))
-    return render_template('form.html', template=selected_template)
+        
+        # Render the specific template
+    return render_template(templates[selected_template], template=selected_template)
 
+@app.route('/resume')
+@login_required
+def resume():
+    selected_template = request.args.get('template')
+    templates = {
+        'template1': 'resume.html',
+        'template2': 'resume2.html',
+        'template3': 'resume3.html'
+    }
+
+    if selected_template not in templates:
+        flash("Invalid template selected.")
+        return redirect(url_for('home'))
+
+    # Render the specific template
+    return render_template(templates[selected_template])
+    
 # Routes for different document generation pages
 @app.route('/letter')
 @login_required
 def letter():
     return render_template('letter_templates.html')
 
-@app.route('/resume')
+@app.route('/resume_temp')
 @login_required
-def resume():
-    return render_template('resume.html')
+def resumetemp():
+    return render_template('resume_templates.html')
 
 # Route for generating leave request document
 @app.route('/generate', methods=['POST'])
 @login_required
 def generate_leave_request():
-    # Retrieve current user's data from database
     user_data = mongo.db.users.find_one({"_id": ObjectId(current_user.id)})
     if not user_data:
         flash("User data not found.")
         return redirect(url_for("home"))
 
-    # Prepare context for document template
     context = {
-        'your_name': user_data.get('your_name'),
+        'fname': user_data.get('fname'),
+        'lname': user_data.get('lname'),
         'your_roll_number': request.form.get('your_roll_number'),
         'your_course_and_year': request.form.get('your_course_and_year'),
         'date': request.form.get('date'),
-        'name_of_the_teacher': request.form.get('name_of_the_teacher'),
-        'designation_teacher_dept': request.form.get('designation_teacher_dept'),
-        'college_name_address': request.form.get('college_name_address'),
+        'principal': request.form.get('principal'),
+        'class_guide': request.form.get('name_of_the_teacher'),
+        'designation': request.form.get('designation'),
+        'college': request.form.get('college'),
         'gender': request.form.get('gender'),
         'start_date': request.form.get('start_date'),
         'end_date': request.form.get('end_date'),
-        'reason': request.form.get('reason')
+        'no': request.form.get('no')
     }
 
-    # Load and render Word document template
-    doc = DocxTemplate("Letter.docx")
+    template_path = "Letter.docx"
+    if not os.path.exists(template_path):
+        flash("Template not found.")
+        return redirect(url_for("home"))
+
+    doc = DocxTemplate(template_path)
     doc.render(context)
 
-    # Save generated document
-    output_path = "generated_leave_request.docx"
+    output_path = os.path.join("generated_files", "generated_leave_request.docx")
     doc.save(output_path)
 
-    # Redirect to download route
     return redirect(url_for("download"))
 
-# Route for downloading generated documents
+@app.route('/generate1', methods=['POST'])
+@login_required
+def generate_leave_request2():
+    user_data = mongo.db.users.find_one({"_id": ObjectId(current_user.id)})
+    if not user_data:
+        flash("User data not found.")
+        return redirect(url_for("home"))
+
+    context = {
+        'fname': user_data.get('fname'),
+        'lname': user_data.get('lname'),
+        'your_roll_number': request.form.get('your_roll_number'),
+        'your_course_and_year': request.form.get('your_course_and_year'),
+        'date': request.form.get('date'),
+        'class_guide': request.form.get('name_of_the_teacher'),
+        'designation': request.form.get('designation'),
+        'college': request.form.get('college'),
+        'gender': request.form.get('gender'),
+        'start_date': request.form.get('start_date'),
+        'end_date': request.form.get('end_date'),
+    }
+
+    template_path = "func.docx"
+    if not os.path.exists(template_path):
+        flash("Template not found.")
+        return redirect(url_for("home"))
+
+    doc = DocxTemplate(template_path)
+    doc.render(context)
+
+    output_path = os.path.join("generated_files", "generated_leave_request.docx")
+    doc.save(output_path)
+
+    return redirect(url_for("download"))
+
 @app.route('/download')
 @login_required
 def download():
     output_path = os.path.join("generated_files", "generated_leave_request.docx")
+    if not os.path.exists(output_path):
+        flash("Generated file not found.")
+        return redirect(url_for("home"))
     return send_file(output_path, as_attachment=True)
 
 # Route to change form
@@ -120,38 +183,34 @@ def change():
     return render_template('form.html')
 
 # User registration route
-@app.route("/register", methods=["GET", "POST"])
+@app.route('/register', methods=["GET", "POST"])
 def register():
     if request.method == "POST":
-        # Collect registration information
         username = request.form.get("username")
         password = request.form.get("password")
-        
-        # Collect additional user details
-        your_name = request.form.get("your_name")
+        fname = request.form.get("fname")
+        lname = request.form.get("lname")
         phonenumber = request.form.get("phonenumber")
         email = request.form.get("email")
         dob = request.form.get("dob")
         linkedin = request.form.get("linkedin")
 
-        # Check if username already exists
         if mongo.db.users.find_one({"username": username}):
-            mess = "Username already exists."
-            return redirect(url_for("register", mess=mess))
+            flash("Username already exists.")
+            return redirect(url_for("register"))
 
-        # Hash the password for secure storage
         hashed_password = generate_password_hash(password, method="pbkdf2:sha256")
 
-        # Insert new user into database
-        user_id = mongo.db.users.insert_one({
+        mongo.db.users.insert_one({
             "username": username,
             "password": hashed_password,
-            "your_name": your_name,
+            "fname": fname,
+            "lname": lname,
             "phonenumber": phonenumber,
-            "dob": dob,
             "email": email,
-            "linkedin": linkedin,
-        }).inserted_id
+            "dob": dob,
+            "linkedin": linkedin
+        })
 
         flash("Registration successful! Please log in.")
         return redirect(url_for("login"))
@@ -219,6 +278,22 @@ def logout():
 def homepage():
     return render_template("home.html", username=current_user.username)
 
+@app.route("/profile")
+def profile():
+        # Retrieve user data
+    user_data = mongo.db.users.find_one({"_id": ObjectId(current_user.id)})
+    if not user_data:
+        return render_template("profile.html", error="User data not found.")
+    
+    data = {
+        'fname': user_data.get('fname'),
+        'lname': user_data.get('lname'),
+        'phonenumber': user_data.get('phonenumber'),
+        'email': user_data.get('email'),
+        'linkedin': user_data.get('linkedin'),
+    }
+    return render_template("profile.html",data=data)
+
 # Resume generation route
 @app.route('/resumegen', methods=['POST'])
 @login_required
@@ -232,10 +307,74 @@ def resumegen():
         
         # Collect resume data from form
         data = {
-            "name": user_data.get("your_name"),
+            "fname": user_data.get("fname"),
+            "lname": user_data.get("lname"),
             "title": request.form.get("title"),
             "contact": {
-                "phone": user_data.get("phone"),
+                "phonenumber": user_data.get("phonenumber"),
+                "email": user_data.get("email"),
+                "linkedin": user_data.get("linkedin")
+            },
+            "education": {
+                "degree": request.form.get("degree"),
+                "institution": request.form.get("institution"),
+                "honors": request.form.get("honors"),
+                "gpa": request.form.get("gpa"),
+                "date": request.form.get("graduation_date")
+            },
+            "skills": request.form.getlist("skills[]"),
+            "objective": request.form.get("objective"),
+            "experience": []
+        }
+
+        # Collect work experience details
+        experience_titles = request.form.getlist("experience[][title]")
+        experience_companies = request.form.getlist("experience[][company]")
+        experience_start_date = request.form.getlist("experience[][start_date]")
+        experience_end_date = request.form.getlist("experience[][end_date]")
+        experience_duties = request.form.getlist("experience[][duties]")
+
+        # Populate experience data
+        for i in range(len(experience_titles)):
+            duties_list = experience_duties[i].split(",") if experience_duties[i] else []
+            data["experience"].append({
+                "title": experience_titles[i],
+                "company": experience_companies[i],
+                "start_date": experience_start_date[i],
+                "end_date": experience_end_date[i],
+                "duties": duties_list
+            })
+
+        # Load and render resume template
+        doc = DocxTemplate("resume_templates/resume-template-2.docx")
+        doc.render(data)
+
+        # Save generated resume
+        output_path = "generated_resume.docx"
+        doc.save(output_path)
+
+        # Send resume for download
+        return send_file(output_path, as_attachment=True)
+
+    return render_template("resume_input.html")
+
+@app.route('/resumegen2', methods=['POST'])
+@login_required
+def resumegen2():
+    if request.method == 'POST':
+        # Retrieve user data
+        user_data = mongo.db.users.find_one({"_id": ObjectId(current_user.id)})
+        if not user_data:
+            flash("User data not found.")
+            return redirect(url_for("home"))
+        
+        # Collect resume data from form
+        data = {
+            "fname": user_data.get("fname"),
+            "lname": user_data.get("lname"),
+            "title": request.form.get("title"),
+            "contact": {
+                "phonenumber": user_data.get("phonenumber"),
                 "email": user_data.get("email"),
                 "linkedin": user_data.get("linkedin")
             },
@@ -271,6 +410,69 @@ def resumegen():
 
         # Load and render resume template
         doc = DocxTemplate("resume_templates/resume1.docx")
+        doc.render(data)
+
+        # Save generated resume
+        output_path = "generated_resume.docx"
+        doc.save(output_path)
+
+        # Send resume for download
+        return send_file(output_path, as_attachment=True)
+
+    return render_template("resume_input.html")
+
+@app.route('/resumegen3', methods=['POST'])
+@login_required
+def resumegen3():
+    if request.method == 'POST':
+        # Retrieve user data
+        user_data = mongo.db.users.find_one({"_id": ObjectId(current_user.id)})
+        if not user_data:
+            flash("User data not found.")
+            return redirect(url_for("home"))
+        
+        # Collect resume data from form
+        data = {
+            "fname": user_data.get("fname"),
+            "lname": user_data.get("lname"),
+            "title": request.form.get("title"),
+            "contact": {
+                "phonenumber": user_data.get("phonenumber"),
+                "email": user_data.get("email"),
+                "linkedin": user_data.get("linkedin")
+            },
+            "education": {
+                "degree": request.form.get("degree"),
+                "institution": request.form.get("institution"),
+                "honors": request.form.get("honors"),
+                "gpa": request.form.get("gpa"),
+                "date": request.form.get("graduation_date")
+            },
+            "skills": request.form.getlist("skills[]"),
+            "objective": request.form.get("objective"),
+            "experience": []
+        }
+
+        # Collect work experience details
+        experience_titles = request.form.getlist("experience[][title]")
+        experience_companies = request.form.getlist("experience[][company]")
+        experience_start_date = request.form.getlist("experience[][start_date]")
+        experience_end_date = request.form.getlist("experience[][end_date]")
+        experience_duties = request.form.getlist("experience[][duties]")
+
+        # Populate experience data
+        for i in range(len(experience_titles)):
+            duties_list = experience_duties[i].split(",") if experience_duties[i] else []
+            data["experience"].append({
+                "title": experience_titles[i],
+                "company": experience_companies[i],
+                "start_date": experience_start_date[i],
+                "end_date": experience_end_date[i],
+                "duties": duties_list
+            })
+
+        # Load and render resume template
+        doc = DocxTemplate("resume_templates/resume-template-4.docx")
         doc.render(data)
 
         # Save generated resume
@@ -320,6 +522,7 @@ def bona():
 
     # Send certificate for download
     return send_file(output_filename, as_attachment=True)
+
 
 # Main application entry point
 if __name__ == '__main__':

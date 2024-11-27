@@ -11,7 +11,7 @@
         <h1>Leave Request Form - {{ template }}</h1>
         <p>Fill out the form for {{ template }}</p>
 
-        <form action="/generate" method="POST">
+        <form action="/generate1" method="POST">
 
             <label>Date:</label><br>
             <input type="date" name="date" required><br><br>
@@ -25,17 +25,8 @@
             <label>College Name:</label>
             <input type="text" name="college" value="" required><br>
 
-            <p><b>Through:</b></p>
             <label>Class guide:</label><br>
             <input type="text" name="class_guide" required>
-            <span>Please enter the teacher's name</span>
-
-            <p><b>To:</b></p>
-            <label>Prinicipal nmae:</label><br>
-            <input type="text" name="principal" required>
-
-            <label>Designation:</label><br>
-            <input type="text" name="designation" required><br><br>
 
             <label>Gender (Sir/Madam):</label><br>
             <input type="text" name="gender" required><br><br>
@@ -45,9 +36,6 @@
 
             <label>End Date:</label><br>
             <input type="date" name="end_date" required><br><br>
-
-            <label>Number of days of leave:</label><br>
-            <input type="number" name="no" id="no" required><br><br>
 
             <input type="submit" value="Generate Leave Request">
         </form>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="/static/profile.css">
+</head>
+<body>
+    <div class="profile-container">
+        <div class="profile-header">
+            <h1>User Profile</h1>
+        </div>
+        <ul class="profile-details">
+            <li><span>First Name:</span> {{ data.fname }}</li>
+            <li><span>Last Name:</span> {{ data.lname }}</li>
+            <li><span>Phone:</span> {{ data.phonenumber }}</li>
+            <li><span>Email:</span>{{ data.email }}</li>
+            <li><span>LinkedIn:</span>{{ data.linkedin }}</li>
+        </ul>
+        <a href="/" class="btn">Back to Home</a>
+        {% if error %}
+            <div class="error-message">{{ error }}</div>
+        {% endif %}
+    </div>
+</body>
+</html>
