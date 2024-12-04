@@ -202,6 +202,7 @@ def register():
         email = request.form.get("email")
         dob = request.form.get("dob")
         linkedin = request.form.get("linkedin")
+        address =  request.form.get("address")
 
         if mongo.db.users.find_one({"username": username}):
             flash("Username already exists.")
@@ -217,7 +218,8 @@ def register():
             "phonenumber": phonenumber,
             "email": email,
             "dob": dob,
-            "linkedin": linkedin
+            "linkedin": linkedin,
+            "address": address,
         })
 
         flash("Registration successful! Please log in.")
@@ -312,6 +314,7 @@ def profile():
         'phonenumber': user_data.get('phonenumber'),
         'email': user_data.get('email'),
         'linkedin': user_data.get('linkedin'),
+        "addr": user_data.get("address")
     }
     return render_template("profile.html",data=data)
 
@@ -334,7 +337,8 @@ def resumegen():
             "contact": {
                 "phonenumber": user_data.get("phonenumber"),
                 "email": user_data.get("email"),
-                "linkedin": user_data.get("linkedin")
+                "linkedin": user_data.get("linkedin"),
+                "addr": user_data.get("address")
             },
             "education": {
                 "degree": request.form.get("degree"),
@@ -397,7 +401,8 @@ def resumegen2():
             "contact": {
                 "phonenumber": user_data.get("phonenumber"),
                 "email": user_data.get("email"),
-                "linkedin": user_data.get("linkedin")
+                "linkedin": user_data.get("linkedin"),
+                "addr": user_data.get("address")
             },
             "education": {
                 "degree": request.form.get("degree"),
@@ -460,7 +465,8 @@ def resumegen3():
             "contact": {
                 "phonenumber": user_data.get("phonenumber"),
                 "email": user_data.get("email"),
-                "linkedin": user_data.get("linkedin")
+                "linkedin": user_data.get("linkedin"),
+                "addr": user_data.get("address")
             },
             "education": {
                 "degree": request.form.get("degree"),
