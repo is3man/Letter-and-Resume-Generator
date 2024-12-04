@@ -314,7 +314,7 @@ def profile():
         'phonenumber': user_data.get('phonenumber'),
         'email': user_data.get('email'),
         'linkedin': user_data.get('linkedin'),
-        "addr": user_data.get("address")
+        "addr": user_data.get("address"),
     }
     return render_template("profile.html",data=data)
 
