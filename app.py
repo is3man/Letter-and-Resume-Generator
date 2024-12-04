@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, send_file, redirect, url_for, flash
+from flask import Flask, render_template, request, send_file, redirect, url_for, flash, make_response
 from docxtpl import DocxTemplate
 from flask_pymongo import PyMongo
 from flask_login import LoginManager, login_user, login_required, logout_user, UserMixin, current_user
@@ -6,6 +6,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from bson.objectid import ObjectId
 from verify_email import verify_email
 import os
+from functools import wraps
 
 # Initialize Flask application
 app = Flask(__name__)
@@ -43,6 +44,13 @@ class User(UserMixin):
 @login_manager.user_loader
 def load_user(user_id):
     return User.get(user_id)
+
+@app.after_request
+def add_cache_control_headers(response):
+    response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "-1"
+    return response
 
 # Home route - main landing page
 @app.route('/')
@@ -245,13 +253,17 @@ def edit_profile():
 # User login route
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    # Redirect already logged-in users to the homepage
+    if current_user.is_authenticated:
+        return redirect(url_for("home"))
+
     message = None  # Initialize message variable
     if request.method == "POST":
         # Collect login credentials
         username = request.form.get("username")
         password = request.form.get("password")
 
-        # Find user in database
+        # Find user in the database
         user_data = mongo.db.users.find_one({"username": username})
 
         # Verify credentials
@@ -262,7 +274,12 @@ def login():
         else:
             message = "Invalid username or password. Please try again."
 
-    return render_template("login.html", message=message)
+    # Render the login page with cache-control headers
+    response = make_response(render_template("login.html", message=message))
+    response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "-1"
+    return response
 
 # User logout route
 @app.route("/logout")
@@ -270,7 +287,11 @@ def login():
 def logout():
     logout_user()
     flash("You have been logged out.")
-    return redirect(url_for("home"))
+    response = make_response(redirect(url_for("home")))
+    response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "-1"
+    return response
 
 # Homepage route (after login)
 @app.route("/homepage")
