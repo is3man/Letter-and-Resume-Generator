@@ -7,6 +7,7 @@ from bson.objectid import ObjectId
 from verify_email import verify_email
 import os
 from functools import wraps
+from transformers import pipeline
 
 # Initialize Flask application
 app = Flask(__name__)
@@ -17,6 +18,17 @@ app.secret_key = "your_secret_key"  # Replace with a strong, unique secret key
 
 # Initialize PyMongo for database interactions
 mongo = PyMongo(app)
+
+generator = pipeline('text-generation', model='t5-base')
+
+def generate_objective(title):
+    # Define a prompt for the objective
+    prompt = f"career objective of {title}"
+    
+    # Generate text
+    generated_text = generator(prompt, max_length=100, num_return_sequences=1)
+    
+    return generated_text[0]['generated_text']
 
 # Set up Flask-Login for user authentication
 login_manager = LoginManager()
@@ -118,7 +130,7 @@ def generate_leave_request():
         'your_course_and_year': request.form.get('your_course_and_year'),
         'date': request.form.get('date'),
         'principal': request.form.get('principal'),
-        'class_guide': request.form.get('name_of_the_teacher'),
+        'class_guide': request.form.get('class_guide'),
         'designation': request.form.get('designation'),
         'college': request.form.get('college'),
         'gender': request.form.get('gender'),
@@ -154,7 +166,7 @@ def generate_leave_request2():
         'your_roll_number': request.form.get('your_roll_number'),
         'your_course_and_year': request.form.get('your_course_and_year'),
         'date': request.form.get('date'),
-        'class_guide': request.form.get('name_of_the_teacher'),
+        'class_guide': request.form.get('class_guide'),
         'designation': request.form.get('designation'),
         'college': request.form.get('college'),
         'gender': request.form.get('gender'),
@@ -348,7 +360,7 @@ def resumegen():
                 "date": request.form.get("graduation_date")
             },
             "skills": request.form.getlist("skills[]"),
-            "objective": request.form.get("objective"),
+            "objective": generate_objective(request.form.get("title")),
             "experience": []
         }
 
@@ -412,7 +424,7 @@ def resumegen2():
                 "date": request.form.get("graduation_date")
             },
             "skills": request.form.getlist("skills[]"),
-            "objective": request.form.get("objective"),
+            "objective": generate_objective(request.form.get("title")),
             "experience": []
         }
 
@@ -476,7 +488,7 @@ def resumegen3():
                 "date": request.form.get("graduation_date")
             },
             "skills": request.form.getlist("skills[]"),
-            "objective": request.form.get("objective"),
+            "objective": generate_objective(request.form.get("title")),
             "experience": []
         }
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Leave Application Portal</title>
+    <title</title>
     <link rel="stylesheet" href="/static/home.css"> <!-- Link to your CSS file -->
     <link rel="stylesheet" href="/static/common.css">
 </head>
@@ -11,12 +11,12 @@
     <!-- Navbar -->
     <div class="navbar">
         <div class="logo">
-            <h1>Leave Portal</h1>
+            <h1>Letter and Resume Generator</h1>
         </div>
         <div class="nav-links">
             <a href="/" class="nav-item">Home</a>
             <a href="{{ url_for('letter') }}" class="nav-item">Leave Application</a>
-            <a href="#resume" class="nav-item">Resume Application</a>
+            <a href="{{ url_for('resumetemp') }}" class="nav-item">Resume Application</a>
 
             {% if current_user.is_authenticated %}
                 <!-- Dropdown for user actions -->
@@ -36,7 +36,7 @@
 
     <!-- Main Content -->
     <div class="container">
-        <h2>Welcome to the Leave Application Portal</h2>
+        <h2>Welcome to the Letter and Resume Generator Portal</h2>
         <p>This portal allows you to generate a leave application document and a resume with ease.</p>
 
         <!-- Project Details Section -->

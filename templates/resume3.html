@@ -13,107 +13,120 @@
             input.name = 'skills[]';
             input.className = 'form-group';
             input.placeholder = 'Enter another skill';
+            input.required = true; // Ensure each skill input is validated
             skillsContainer.appendChild(input);
         }
     
         function addExperience() {
-            const experienceContainer = document.getElementById('experience-container');
-    
-            const jobDiv = document.createElement('div');
-            jobDiv.className = 'form-group';
-    
-            const titleLabel = document.createElement('label');
-            titleLabel.textContent = 'Job Title:';
-            const titleInput = document.createElement('input');
-            titleInput.type = 'text';
-            titleInput.name = 'experience[][title]';
-            titleInput.className = 'form-group';
-    
-            const companyLabel = document.createElement('label');
-            companyLabel.textContent = 'Company:';
-            const companyInput = document.createElement('input');
-            companyInput.type = 'text';
-            companyInput.name = 'experience[][company]';
-            companyInput.className = 'form-group';
-    
-            const startDateLabel = document.createElement('label');
-            startDateLabel.textContent = 'Start Date:';
-            const startDateInput = document.createElement('input');
-            startDateInput.type = 'date';
-            startDateInput.name = 'experience[][start_date]';
-            startDateInput.className = 'form-group';
-    
-            const endDateLabel = document.createElement('label');
-            endDateLabel.textContent = 'End Date:';
-            const endDateInput = document.createElement('input');
-            endDateInput.type = 'date';
-            endDateInput.name = 'experience[][end_date]';
-            endDateInput.className = 'form-group';
-    
-            const dutiesLabel = document.createElement('label');
-            dutiesLabel.textContent = 'Job Duties (comma-separated):';
-            const dutiesTextarea = document.createElement('textarea');
-            dutiesTextarea.name = 'experience[][duties]';
-            dutiesTextarea.rows = 3;
-    
-            jobDiv.appendChild(titleLabel);
-            jobDiv.appendChild(titleInput);
-            jobDiv.appendChild(companyLabel);
-            jobDiv.appendChild(companyInput);
-            jobDiv.appendChild(startDateLabel);
-            jobDiv.appendChild(startDateInput);
-            jobDiv.appendChild(endDateLabel);
-            jobDiv.appendChild(endDateInput);
-            jobDiv.appendChild(dutiesLabel);
-            jobDiv.appendChild(dutiesTextarea);
-    
-            experienceContainer.appendChild(jobDiv);
-        }
+    const experienceContainer = document.getElementById('experience-container');
+    const jobDiv = document.createElement('div');
+    jobDiv.className = 'experience-block';
+
+    // Create Job Title field
+    const titleLabel = document.createElement('label');
+    titleLabel.textContent = 'Job Title:';
+    const titleInput = document.createElement('input');
+    titleInput.type = 'text';
+    titleInput.name = 'experience[][title]';
+    titleInput.className = 'form-group';
+    titleInput.required = true;
+
+    // Create Company field
+    const companyLabel = document.createElement('label');
+    companyLabel.textContent = 'Company:';
+    const companyInput = document.createElement('input');
+    companyInput.type = 'text';
+    companyInput.name = 'experience[][company]';
+    companyInput.className = 'form-group';
+    companyInput.required = true;
+
+    // Create Start Year field
+    const startDateLabel = document.createElement('label');
+    startDateLabel.textContent = 'Start Year:';
+    const startDateInput = document.createElement('input');
+    startDateInput.type = 'number';
+    startDateInput.name = 'experience[][start_date]';
+    startDateInput.className = 'form-group';
+    startDateInput.min = '1900';
+    startDateInput.max = '2099';
+    startDateInput.step = '1';
+    startDateInput.placeholder = 'e.g., 2014';
+    startDateInput.required = true;
+
+    // Create End Year field
+    const endDateLabel = document.createElement('label');
+    endDateLabel.textContent = 'End Year:';
+    const endDateInput = document.createElement('input');
+    endDateInput.type = 'number';
+    endDateInput.name = 'experience[][end_date]';
+    endDateInput.className = 'form-group';
+    endDateInput.min = '1900';
+    endDateInput.max = '2099';
+    endDateInput.step = '1';
+    endDateInput.placeholder = 'e.g., 2020';
+    endDateInput.required = true;
+
+    // Create Job Duties field
+    const dutiesLabel = document.createElement('label');
+    dutiesLabel.textContent = 'Job Duties (comma-separated):';
+    const dutiesTextarea = document.createElement('textarea');
+    dutiesTextarea.name = 'experience[][duties]';
+    dutiesTextarea.rows = 3;
+    dutiesTextarea.className = 'form-group';
+
+    // Append fields to the jobDiv
+    jobDiv.appendChild(titleLabel);
+    jobDiv.appendChild(titleInput);
+    jobDiv.appendChild(companyLabel);
+    jobDiv.appendChild(companyInput);
+    jobDiv.appendChild(startDateLabel);
+    jobDiv.appendChild(startDateInput);
+    jobDiv.appendChild(endDateLabel);
+    jobDiv.appendChild(endDateInput);
+    jobDiv.appendChild(dutiesLabel);
+    jobDiv.appendChild(dutiesTextarea);
+
+    // Append jobDiv to the experienceContainer
+    experienceContainer.appendChild(jobDiv);
+}
+
     </script>
 </head>
 <body>
     <form action="/resumegen3" method="post">
         <h1>Resume Input Form</h1>
 
-        <!-- Education -->
+        <!-- Education Section -->
         <div class="section-title">Education</div>
         <div class="form-group">
             <label for="degree">Degree:</label>
-            <input type="text" id="degree" name="degree" required>
+            <input type="text" id="degree" name="degree" required placeholder="E.g., Bachelor of Science in Computer Science">
         </div>
         <div class="form-group">
             <label for="institution">Institution:</label>
-            <input type="text" id="institution" name="institution" required>
-        </div>
-        <div class="form-group">
-            <label for="honors">Honors (e.g., cum laude):</label>
-            <input type="text" id="honors" name="honors">
+            <input type="text" id="institution" name="institution" required placeholder="E.g., Harvard University">
         </div>
         <div class="form-group">
             <label for="gpa">GPA:</label>
-            <input type="text" id="gpa" name="gpa">
+            <input type="text" id="gpa" name="gpa" placeholder="E.g., 3.8/4.0">
         </div>
         <div class="form-group">
             <label for="graduation_date">Graduation Date:</label>
-            <input type="text" id="graduation_date" name="graduation_date">
+            <input type="number" id="graduation_date" name="graduation_date">
         </div>
 
-        <!-- Skills -->
+        <!-- Skills Section -->
         <div class="section-title">Relevant Skills</div>
         <div id="skills-container">
             <div class="form-group">
                 <label for="skills">Skills:</label>
-                <input type="text" id="skills" name="skills[]" required>
+                <input type="text" id="skills" name="skills[]" required placeholder="E.g., Python, JavaScript">
             </div>
         </div>
         <button type="button" class="add-btn" onclick="addSkill()">Add Skill</button>
 
         <!-- Career Objective -->
-        <div class="section-title">Career Objective</div>
-        <div class="form-group">
-            <label for="objective">Objective:</label>
-            <textarea id="objective" name="objective" rows="4" required></textarea>
-        </div>
+        
         <div class="form-group">
             <label for="title">Job Title:</label>
             <input type="text" id="title" name="title" required>
@@ -121,32 +134,30 @@
 
         <!-- Professional Experience -->
         <div class="section-title">Professional Experience</div>
-        <div id="experience-container">
-            <div class="form-group">
-                <label for="job_title_1">Job Title:</label>
-                <input type="text" id="job_title_1" name="experience[][title]">
-            </div>
-            <div class="form-group">
-                <label for="company_1">Company:</label>
-                <input type="text" id="company_1" name="experience[][company]">
-            </div>
-            <div class="form-group">
-                <label for="start_date_1">Start year in the Company:</label>
-                <input type="number" id="start_date_1" name="experience[][start_date]" placeholder="Eg:2014" required>
-            </div>
-            <div class="form-group">
-                <label for="end_date_1">End year in the Company:</label>
-                <input type="number" id="end_date_1" name="experience[][end_date]" placeholder="Eg:2020" required>
-            </div>
-            <div class="form-group">
-                <label for="duties_1">Job Duties (comma-separated):</label>
-                <textarea id="duties_1" name="experience[][duties]" rows="3"></textarea>
-            </div>
-        </div>
-        <button type="button" class="add-btn" onclick="addExperience()">Add Job</button>
-
-        <!-- Submit Button -->
-        <button type="submit">Submit</button>
+<div id="experience-container">
+    <div class="form-group">
+        <label for="job_title_1">Job Title in that Company/Organization:</label>
+        <input type="text" id="job_title_1" name="experience[][title]" required>
+    </div>
+    <div class="form-group">
+        <label for="company_1">Company:</label>
+        <input type="text" id="company_1" name="experience[][company]" required>
+    </div>
+    <div class="form-group">
+        <label for="start_date_1">Start Year in the Company:</label>
+        <input type="number" id="start_date_1" name="experience[][start_date]" min="1900" max="2099" step="1" placeholder="e.g., 2014" required>
+    </div>
+    <div class="form-group">
+        <label for="end_date_1">End Year in the Company:</label>
+        <input type="number" id="end_date_1" name="experience[][end_date]" min="1900" max="2099" step="1" placeholder="e.g., 2020" required>
+    </div>
+    <div class="form-group">
+        <label for="duties_1">Job Duties (comma-separated):</label>
+        <textarea id="duties_1" name="experience[][duties]" rows="3"></textarea>
+    </div>
+</div>
+<button type="button" class="add-btn" onclick="addExperience()">Add Job</button>
+<button type="submit">Submit</button>
     </form>
 </body>
 </html>
